@@ -17,7 +17,7 @@ public class Json2YamlPluginFunctionalTest extends Specification {
         new File(projectDir, "settings.gradle") << ""
         new File(projectDir, "build.gradle") << """
             plugins {
-                id('json2yaml')
+                id('dev.castocolina.json2yaml')
             }
             json2yaml.inputFile = project.file('../resources/functionalTest/sample.json')
             json2yaml.outputFile = project.file('output.yaml')
@@ -27,7 +27,7 @@ public class Json2YamlPluginFunctionalTest extends Specification {
         def runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withPluginClasspath()
-        runner.withArguments("transformYaml")
+        runner.withArguments("json2yaml")
         runner.withProjectDir(projectDir)
         def result = runner.build()
 

@@ -16,11 +16,10 @@ public class Json2YamlPluginTest extends Specification {
         def project = ProjectBuilder.builder().build()
 
         when:
-        project.plugins.apply("json2yaml")
+        project.plugins.apply("dev.castocolina.json2yaml")
 
         then:
-        project.tasks.findByName("transformYaml") != null
-        // project.tasks.findByName("").
+        project.tasks.findByName("json2yaml") != null
 
     }
 }

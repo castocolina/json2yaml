@@ -12,6 +12,8 @@ plugins {
 
     // Apply the Groovy plugin to add support for Groovy
     id 'groovy'
+
+    id 'com.gradle.plugin-publish' version '0.10.1'
 }
 
 repositories {
@@ -25,20 +27,27 @@ ext {
 }
 
 dependencies {
-
-    
-
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVer}"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVer}"
     // Use the awesome Spock testing and specification framework
     testImplementation 'org.spockframework:spock-core:1.3-groovy-2.5'
 }
 
+version = "1.0.0-SNAPSHOT"
+
+pluginBundle {
+    website = 'https://github.com/castocolina/json2yaml' 
+    vcsUrl = 'https://github.com/castocolina/json2yaml' 
+    tags = ['json', 'yaml', 'converter', 'transform', 'json2yaml']
+}
+
 gradlePlugin {
     // Define the plugin
     plugins {
         json2yaml {
-            id = 'json2yaml'
+            id = 'dev.castocolina.json2yaml'
+            displayName = 'JSON to YAML Plugin'
+            description = 'Plugin for JSON file convertion to YAML format'
             implementationClass = 'dev.castocolina.gradle.plugin.Json2YamlPlugin'
         }
     }

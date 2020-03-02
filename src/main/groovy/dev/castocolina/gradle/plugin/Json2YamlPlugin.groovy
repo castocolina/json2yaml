@@ -26,7 +26,7 @@ public class Json2YamlPlugin implements Plugin<Project> {
 
         // Register a task
 
-        project.tasks.register("transformYaml") {
+        project.tasks.register("json2yaml") {
             def inJson, ouYaml, minQuote, delTarget
 
             doFirst {
