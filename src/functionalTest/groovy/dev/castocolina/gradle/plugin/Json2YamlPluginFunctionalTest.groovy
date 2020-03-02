@@ -7,7 +7,7 @@ import spock.lang.Specification
 import org.gradle.testkit.runner.GradleRunner
 
 /**
- * A simple functional test for the 'dev.castocolina.gradle.plugin.greeting' plugin.
+ * A simple functional test for the 'json2yaml' plugin.
  */
 public class Json2YamlPluginFunctionalTest extends Specification {
     def "can run task"() {
@@ -17,19 +17,21 @@ public class Json2YamlPluginFunctionalTest extends Specification {
         new File(projectDir, "settings.gradle") << ""
         new File(projectDir, "build.gradle") << """
             plugins {
-                id('dev.castocolina.gradle.plugin.greeting')
+                id('json2yaml')
             }
+            json2yaml.inputFile = project.file('../resources/functionalTest/sample.json')
+            json2yaml.outputFile = project.file('output.yaml')
         """
 
         when:
         def runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withPluginClasspath()
-        runner.withArguments("greeting")
+        runner.withArguments("transformYaml")
         runner.withProjectDir(projectDir)
         def result = runner.build()
 
         then:
-        result.output.contains("Hello from plugin 'dev.castocolina.gradle.plugin.greeting'")
+        result.output.contains("File converted!!!")
     }
 }

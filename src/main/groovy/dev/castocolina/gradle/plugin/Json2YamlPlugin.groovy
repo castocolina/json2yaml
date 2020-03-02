@@ -5,17 +5,55 @@ package dev.castocolina.gradle.plugin
 
 import org.gradle.api.Project
 import org.gradle.api.Plugin
+import groovy.json.JsonSlurper
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature
+
+public class Json2YamlPluginExtension {
+    File inputFile = new File('sample.json')
+    File outputFile = new File('build/tmp/docs.yaml')
+    Boolean minimizeQuote = Boolean.TRUE
+    Boolean deleteTargetFirst = Boolean.TRUE
+}
 
 /**
  * A simple 'hello world' plugin.
  */
 public class Json2YamlPlugin implements Plugin<Project> {
     public void apply(Project project) {
+        def extension = project.extensions.create('json2yaml', Json2YamlPluginExtension)
+
         // Register a task
-        project.tasks.register("greeting") {
-            doLast {
-                println("Hello from plugin 'dev.castocolina.gradle.plugin.greeting'")
+
+        project.tasks.register("transformYaml") {
+            def inJson, ouYaml, minQuote, delTarget
+
+            doFirst {
+                inJson = extension.inputFile
+                ouYaml = extension.outputFile
+                minQuote = extension.minimizeQuote
+                delTarget = extension.deleteTargetFirst
+
+                println "Transform input: " + inJson.absolutePath
+                println "Transform output: " + ouYaml.absolutePath
+                if (delTarget){
+                    println "Delete target first: " + ouYaml.delete()
+                }
             }
+
+            doLast {
+                def jsonText = inJson.text
+                def jSonMap = new JsonSlurper().parseText(jsonText)
+                def factory = new YAMLFactory()
+                if (minQuote){
+                    factory.enable(Feature.MINIMIZE_QUOTES)
+                }
+                def mapper = new ObjectMapper(factory)
+                mapper.writeValue(ouYaml, jSonMap)
+                println("File converted!!!")
+            }
+
         }
     }
 }

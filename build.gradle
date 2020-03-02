@@ -20,7 +20,16 @@ repositories {
     jcenter()
 }
 
+ext {
+    jacksonVer='2.9.8'
+}
+
 dependencies {
+
+    
+
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVer}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVer}"
     // Use the awesome Spock testing and specification framework
     testImplementation 'org.spockframework:spock-core:1.3-groovy-2.5'
 }
@@ -28,8 +37,8 @@ dependencies {
 gradlePlugin {
     // Define the plugin
     plugins {
-        greeting {
-            id = 'dev.castocolina.gradle.plugin.greeting'
+        json2yaml {
+            id = 'json2yaml'
             implementationClass = 'dev.castocolina.gradle.plugin.Json2YamlPlugin'
         }
     }
@@ -38,6 +47,9 @@ gradlePlugin {
 // Add a source set for the functional test suite
 sourceSets {
     functionalTest {
+        resources {
+            srcDir 'src/functionalTest/resources'
+        }
     }
 }
 

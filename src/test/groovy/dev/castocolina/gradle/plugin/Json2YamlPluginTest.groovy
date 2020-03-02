@@ -8,7 +8,7 @@ import org.gradle.api.Project
 import spock.lang.Specification
 
 /**
- * A simple unit test for the 'dev.castocolina.gradle.plugin.greeting' plugin.
+ * A simple unit test for the 'json2yaml' plugin.
  */
 public class Json2YamlPluginTest extends Specification {
     def "plugin registers task"() {
@@ -16,9 +16,11 @@ public class Json2YamlPluginTest extends Specification {
         def project = ProjectBuilder.builder().build()
 
         when:
-        project.plugins.apply("dev.castocolina.gradle.plugin.greeting")
+        project.plugins.apply("json2yaml")
 
         then:
-        project.tasks.findByName("greeting") != null
+        project.tasks.findByName("transformYaml") != null
+        // project.tasks.findByName("").
+
     }
 }
