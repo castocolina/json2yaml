@@ -19,7 +19,9 @@ public class Json2YamlPluginTest extends Specification {
         project.plugins.apply("dev.castocolina.json2yaml")
 
         then:
-        project.tasks.findByName("json2yaml") != null
-
+        (project.tasks.findByName("json2yaml") != null &&
+         project.tasks.findByName("yaml2json") != null &&
+         project.tasks.findByName("JsonToYaml") != null &&
+         project.tasks.findByName("YamlToJson") != null)
     }
 }
